@@ -1,0 +1,31 @@
+﻿@page "/table/{Id:int}"
+@using Blazor.DynamicTable.Servives
+@using Blazor.DynamicTable.Extensions
+@using Newtonsoft.Json
+@inject IDynamicTableService IQueryDynamicTable
+@{
+    var table = IQueryDynamicTable.GetByTableId(Id);
+    var lstColumn = JsonConvert.DeserializeObject<List<TableProperty>>(table.TableProperty);
+}
+
+<p>
+    <a asp-page="Create?table=@Id">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            @foreach (var item in lstColumn)
+            {
+                <th>@item.Name</th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+
+    </tbody>
+</table>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+}
